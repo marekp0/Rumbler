@@ -1,0 +1,12 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+  "id": "Rumbler",
+  "name": "Rumbler",
+  "author": "marekp0",
+  "version": "0.0.1",
+  "description": "Allows for adjusting the strength of controller rumble/vibrations",
+  "gameVersion": "1.18.3",
+  "dependsOn": {
+    "BSIPA": "^4.2.0"
+  }
+}

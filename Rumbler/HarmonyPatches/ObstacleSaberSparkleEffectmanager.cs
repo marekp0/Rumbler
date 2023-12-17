@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Libraries.HM.HMLib.VR;
 using IPA.Utilities;
+using Rumbler.Configuration;
 
 namespace Rumbler.HarmonyPatches
 {
@@ -10,10 +11,7 @@ namespace Rumbler.HarmonyPatches
         private static void Postfix(ObstacleSaberSparkleEffectManager __instance)
         {
             var rumblePreset = __instance.GetField<HapticPresetSO, ObstacleSaberSparkleEffectManager>("_rumblePreset");
-            if (rumblePreset != null)
-            {
-                rumblePreset._strength = 0f;
-            }
+            PluginConfig.Instance.Obstacle.CopyTo(rumblePreset);
         }
     }
 }

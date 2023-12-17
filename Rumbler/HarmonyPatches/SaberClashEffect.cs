@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using IPA.Utilities;
 using Libraries.HM.HMLib.VR;
+using Rumbler.Configuration;
 
 namespace Rumbler.HarmonyPatches
 {
@@ -10,10 +11,7 @@ namespace Rumbler.HarmonyPatches
         private static void Postfix(SaberClashEffect __instance)
         {
             var rumblePreset = __instance.GetField<HapticPresetSO, SaberClashEffect>("_rumblePreset");
-            if (rumblePreset != null)
-            {
-                rumblePreset._strength = 0f;
-            }
+            PluginConfig.Instance.SaberClash.CopyTo(rumblePreset);
         }
     }
 }

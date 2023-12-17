@@ -21,6 +21,8 @@ namespace Rumbler
 
         private SettingsController settingsController;
 
+        public static bool OverridesEnabled { get; private set; } = false;
+
         internal const string HarmonyId = "com.github.marekp0.Rumbler";
         internal static Harmony HarmonyInstance => new Harmony(HarmonyId);
 
@@ -50,7 +52,7 @@ namespace Rumbler
             BSMLSettings.instance.AddSettingsMenu("Rumbler", $"Rumbler.Views.Settings.bsml", settingsController);
             if (Configuration.PluginConfig.Instance.IsEnabled)
             {
-                ApplyHarmonyPatches();
+                SetupOverrides();
             }
         }
 
@@ -66,7 +68,7 @@ namespace Rumbler
         public void OnDisable()
         {
             BSMLSettings.instance.RemoveSettingsMenu(settingsController);
-            RemoveHarmonyPatches();
+            TeardownOverrides();
         }
 
         [OnExit]
@@ -76,8 +78,14 @@ namespace Rumbler
 
         }
 
-        internal static void ApplyHarmonyPatches()
+        /// <summary>
+        /// Sets up the overriding of the default haptic feedback effects.
+        /// </summary>
+        internal static void SetupOverrides()
         {
+            if (OverridesEnabled) return;
+
+            // apply harmony patches
             try
             {
                 HarmonyInstance.PatchAll();
@@ -88,10 +96,18 @@ namespace Rumbler
                 Log?.Critical("Error adding Harmony patches: " + e.Message);
                 Log?.Debug(e);
             }
+
+            OverridesEnabled = true;
         }
 
-        internal static void RemoveHarmonyPatches()
+        /// <summary>
+        /// Tears down the overriding of the default haptic feedback effects.
+        /// </summary>
+        internal static void TeardownOverrides()
         {
+            if (!OverridesEnabled) return;
+
+            // remove harmony patches
             try
             {
                 HarmonyInstance.UnpatchSelf();
@@ -101,6 +117,20 @@ namespace Rumbler
             {
                 Log?.Critical("Error removing Harmony patches: " + e.Message);
                 Log?.Debug(e);
+            }
+
+            OverridesEnabled = false;
+        }
+
+        internal static void OnConfigChanged()
+        {
+            if (Configuration.PluginConfig.Instance.IsEnabled)
+            {
+                SetupOverrides();
+            }
+            else
+            {
+                TeardownOverrides();
             }
         }
     }

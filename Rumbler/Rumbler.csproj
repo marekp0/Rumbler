@@ -20,6 +20,7 @@
     <!--<PathMap>$(AppOutputBase)=X:\$(AssemblyName)\</PathMap>-->
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
@@ -94,12 +95,14 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.VRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="VRUI, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HarmonyPatches\NoteCutHapticEffect.cs" />
     <Compile Include="HarmonyPatches\ObstacleSaberSparkleEffectmanager.cs" />
     <Compile Include="HarmonyPatches\SaberClashEffect.cs" />
     <Compile Include="HarmonyPatches\SliderHapticFeedbackInteractionEffect.cs" />
+    <Compile Include="HarmonyPatches\VRInputModule.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Configuration\PluginConfig.cs" />
     <Compile Include="RumblerController.cs" />

@@ -214,6 +214,7 @@ namespace Rumbler
         internal void OnApply()
         {
             conf.CopyFrom(localConf);
+            Plugin.OnConfigChanged();
         }
 
         [UIAction("#cancel")]

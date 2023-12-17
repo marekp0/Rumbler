@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
+using Libraries.HM.HMLib.VR;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace Rumbler.Configuration
@@ -17,6 +18,20 @@ namespace Rumbler.Configuration
             Strength = other.Strength;
             Frequency = other.Frequency;
             Duration = other.Duration;
+        }
+
+        /// <summary>
+        /// Copies the rumble parameters to a <c>HapticPresetSO</c> object.
+        /// </summary>
+        /// <param name="preset"><c>HapticPresetSO</c> object to copy to. Can be null.</param>
+        public void CopyTo(HapticPresetSO preset)
+        {
+            if (preset == null) return;
+
+            preset._strength = Strength;
+            preset._frequency = Frequency;
+            preset._duration = Duration;
+            preset._continuous = Duration == 0f;
         }
     }
 

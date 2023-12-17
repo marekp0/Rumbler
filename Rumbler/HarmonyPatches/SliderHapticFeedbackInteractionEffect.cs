@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using IPA.Utilities;
 using Libraries.HM.HMLib.VR;
+using Rumbler.Configuration;
 
 namespace Rumbler.HarmonyPatches
 {
@@ -9,11 +10,8 @@ namespace Rumbler.HarmonyPatches
     {
         private static void Postfix(SliderHapticFeedbackInteractionEffect __instance)
         {
-            var rumblePreset = __instance.GetField<HapticPresetSO, SliderHapticFeedbackInteractionEffect>("_hapticPreset");
-            if (rumblePreset != null)
-            {
-                rumblePreset._strength = 0f;
-            }
+            var hapticPreset = __instance.GetField<HapticPresetSO, SliderHapticFeedbackInteractionEffect>("_hapticPreset");
+            PluginConfig.Instance.Slider.CopyTo(hapticPreset);
         }
     }
 }

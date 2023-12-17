@@ -7,7 +7,7 @@ using VRUIControls;
 namespace Rumbler.HarmonyPatches
 {
     [HarmonyPatch(typeof(VRInputModule), "HandlePointerExitAndEnter")]
-    internal class VRInputModule_Process
+    internal class VRInputModule_HandlePointerExitAndEnter
     {
         private static void Prefix(VRInputModule __instance)
         {

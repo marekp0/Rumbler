@@ -6,7 +6,7 @@ using Rumbler.Configuration;
 namespace Rumbler.HarmonyPatches
 {
     [HarmonyPatch(typeof(ObstacleSaberSparkleEffectManager), "Start")]
-    internal class ObstacleSaberSparkleEffectManager_SpawnEffect
+    internal class ObstacleSaberSparkleEffectManager_Start
     {
         private static void Postfix(ObstacleSaberSparkleEffectManager __instance)
         {

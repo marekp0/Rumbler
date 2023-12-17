@@ -1,9 +1,136 @@
 ﻿<settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
 	xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'
 	>
+  
+  <horizontal horizontal-fit="PreferredSize">
+    <text text="General" font-size="6"></text>
+  </horizontal>
 
   <horizontal horizontal-fit="PreferredSize">
     <bool-setting value='enabled' text='Enable Rumbler' hover-hint='Turns the mod on or off'></bool-setting>
+  </horizontal>
+
+  <!-- spacing -->
+  <horizontal horizontal-fit="PreferredSize">
+    <text text=" " font-size="4"></text>
+  </horizontal>
+  
+  
+
+
+  <horizontal horizontal-fit="PreferredSize">
+    <text text="Notes" font-size="6"></text>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Strength" value="note_strength" min="0" max="1" increment="0.05"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_frequency" min="0" max="500" increment="1"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Duration" value="note_duration" min="0" max="0.5" increment="0.01"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <button text="Test rumble" all-uppercase="false" on-click="rumble_test_note"/>
+  </horizontal>
+
+  <!-- spacing -->
+  <horizontal horizontal-fit="PreferredSize">
+    <text text=" " font-size="4"></text>
+  </horizontal>
+  
+  
+
+  <horizontal horizontal-fit="PreferredSize">
+    <text text="Walls" font-size="6"></text>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Strength" value="wall_strength" min="0" max="1" increment="0.05"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="wall_frequency" min="0" max="500" increment="1"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <button text="Test rumble" all-uppercase="false" on-click="rumble_test_wall"/>
+  </horizontal>
+
+  <!-- spacing -->
+  <horizontal horizontal-fit="PreferredSize">
+    <text text=" " font-size="4"></text>
+  </horizontal>
+  
+  
+
+  <horizontal horizontal-fit="PreferredSize">
+    <text text="Arcs" font-size="6"></text>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Strength" value="arc_strength" min="0" max="1" increment="0.05"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="arc_frequency" min="0" max="500" increment="1"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <button text="Test rumble" all-uppercase="false" on-click="rumble_test_arc"/>
+  </horizontal>
+
+  <!-- spacing -->
+  <horizontal horizontal-fit="PreferredSize">
+    <text text=" " font-size="4"></text>
+  </horizontal>
+
+  
+
+  <horizontal horizontal-fit="PreferredSize">
+    <text text="Saber Clash" font-size="6"></text>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Strength" value="saber_clash_strength" min="0" max="1" increment="0.05"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="saber_clash_frequency" min="0" max="500" increment="1"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <button text="Test rumble" all-uppercase="false" on-click="rumble_test_saber_clash"/>
+  </horizontal>
+
+  <!-- spacing -->
+  <horizontal horizontal-fit="PreferredSize">
+    <text text=" " font-size="4"></text>
+  </horizontal>
+
+
+  <horizontal horizontal-fit="PreferredSize">
+    <text text="UI" font-size="6"></text>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Strength" value="ui_strength" min="0" max="1" increment="0.05"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="ui_frequency" min="0" max="500" increment="1"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <slider-setting apply-on-change="true" show-buttons="true" text="Duration" value="ui_duration" min="0" max="0.5" increment="0.01"></slider-setting>
+  </horizontal>
+
+  <horizontal horizontal-fit="PreferredSize">
+    <button text="Test rumble" all-uppercase="false" on-click="rumble_test_ui"/>
   </horizontal>
 
 </settings-container>

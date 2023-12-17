@@ -63,10 +63,12 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.InputSystem, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Unity.TextMeshPro">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.XR.OpenXR, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="UnityEngine">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>

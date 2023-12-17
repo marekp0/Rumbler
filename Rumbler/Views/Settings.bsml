@@ -2,7 +2,7 @@
 	xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'
 	>
   
-  <tab-selector tab-tag="rumbler-settings"  anchor-pos-x="-10"/>
+  <tab-selector tab-tag="rumbler-settings"  anchor-pos-x="-10" select-cell="tab_changed"/>
 
   <tab tags="rumbler-settings" tab-name="General" anchor-max-y="0.95">
     <settings-container>

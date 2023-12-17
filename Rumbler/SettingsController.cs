@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using UnityEngine.XR.OpenXR.Input;
 using UnityEngine.InputSystem;
 using Rumbler.Configuration;
+using HMUI;
 
 
 namespace Rumbler
@@ -23,6 +24,10 @@ namespace Rumbler
 
         private const float kContinuousRumbleTestDuration = 2f;
 
+        // BSML will save 0 to properties in tabs that were never accessed,
+        // so we need to keep track of accessed tabs and do nothing for
+        // "set" in tabs that were not accessed.
+        private bool[] tabAccessed = new bool[4];
 
         public SettingsController(PluginConfig conf)
         {
@@ -31,183 +36,199 @@ namespace Rumbler
             localConf.CopyFrom(conf);
         }
 
+        private void ResetTabAccessed()
+        {
+            Plugin.Log?.Info("Resetting tab accessed");
+            for (int i = 0; i < tabAccessed.Length; i++)
+            {
+                tabAccessed[i] = i == 0;
+            }
+        }
+
+        [UIAction("tab_changed")]
+        public void OnTabChanged(SegmentedControl component, int tab)
+        {
+            tabAccessed[tab] = true;
+        }
+
         [UIValue("enabled")]
         public bool IsEnabled {
             get { return localConf.IsEnabled; }
-            set { localConf.IsEnabled = value; }
+            set { if (tabAccessed[0]) localConf.IsEnabled = value; }
         }
 
         [UIValue("note_cut_normal_strength")]
         public float NoteStrength
         {
             get { return localConf.NoteCutNormal.Strength; }
-            set { localConf.NoteCutNormal.Strength = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutNormal.Strength = value; }
         }
 
         [UIValue("note_cut_normal_frequency")]
         public float NoteFrequency
         {
             get { return localConf.NoteCutNormal.Frequency; }
-            set { localConf.NoteCutNormal.Frequency = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutNormal.Frequency = value; }
         }
 
         [UIValue("note_cut_normal_duration")]
         public float NoteDuration
         {
             get { return localConf.NoteCutNormal.Duration; }
-            set { localConf.NoteCutNormal.Duration = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutNormal.Duration = value; }
         }
 
         [UIValue("note_cut_short_normal_strength")]
         public float NoteCutShortNormalStrength
         {
             get { return localConf.NoteCutShortNormal.Strength; }
-            set { localConf.NoteCutShortNormal.Strength = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutShortNormal.Strength = value; }
         }
 
         [UIValue("note_cut_short_normal_frequency")]
         public float NoteCutShortNormalFrequency
         {
             get { return localConf.NoteCutShortNormal.Frequency; }
-            set { localConf.NoteCutShortNormal.Frequency = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutShortNormal.Frequency = value; }
         }
 
         [UIValue("note_cut_short_normal_duration")]
         public float NoteCutShortNormalDuration
         {
             get { return localConf.NoteCutShortNormal.Duration; }
-            set { localConf.NoteCutShortNormal.Duration = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutShortNormal.Duration = value; }
         }
 
         [UIValue("note_cut_short_weak_strength")]
         public float NoteCutShortWeakStrength
         {
             get { return localConf.NoteCutShortWeak.Strength; }
-            set { localConf.NoteCutShortWeak.Strength = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutShortWeak.Strength = value; }
         }
 
         [UIValue("note_cut_short_weak_frequency")]
         public float NoteCutShortWeakFrequency
         {
             get { return localConf.NoteCutShortWeak.Frequency; }
-            set { localConf.NoteCutShortWeak.Frequency = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutShortWeak.Frequency = value; }
         }
 
         [UIValue("note_cut_short_weak_duration")]
         public float NoteCutShortWeakDuration
         {
             get { return localConf.NoteCutShortWeak.Duration; }
-            set { localConf.NoteCutShortWeak.Duration = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutShortWeak.Duration = value; }
         }
 
         [UIValue("note_cut_bomb_strength")]
         public float NoteCutBombStrength
         {
             get { return localConf.NoteCutBomb.Strength; }
-            set { localConf.NoteCutBomb.Strength = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutBomb.Strength = value; }
         }
 
         [UIValue("note_cut_bomb_frequency")]
         public float NoteCutBombFrequency
         {
             get { return localConf.NoteCutBomb.Frequency; }
-            set { localConf.NoteCutBomb.Frequency = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutBomb.Frequency = value; }
         }
 
         [UIValue("note_cut_bomb_duration")]
         public float NoteCutBombDuration
         {
             get { return localConf.NoteCutBomb.Duration; }
-            set { localConf.NoteCutBomb.Duration = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutBomb.Duration = value; }
         }
 
         [UIValue("note_cut_bad_cut_strength")]
         public float NoteCutBadCutStrength
         {
             get { return localConf.NoteCutBadCut.Strength; }
-            set { localConf.NoteCutBadCut.Strength = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutBadCut.Strength = value; }
         }
 
         [UIValue("note_cut_bad_cut_frequency")]
         public float NoteCutBadCutFrequency
         {
             get { return localConf.NoteCutBadCut.Frequency; }
-            set { localConf.NoteCutBadCut.Frequency = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutBadCut.Frequency = value; }
         }
 
         [UIValue("note_cut_bad_cut_duration")]
         public float NoteCutBadCutDuration
         {
             get { return localConf.NoteCutBadCut.Duration; }
-            set { localConf.NoteCutBadCut.Duration = value; }
+            set { if (tabAccessed[1]) localConf.NoteCutBadCut.Duration = value; }
         }
 
         [UIValue("obstacle_strength")]
         public float ObstacleStrength
         { 
             get { return localConf.Obstacle.Strength;}
-            set { localConf.Obstacle.Strength = value; }
+            set { if (tabAccessed[2]) localConf.Obstacle.Strength = value; }
         }
 
         [UIValue("obstacle_frequency")]
         public float ObstacleFrequency
         {
             get { return localConf.Slider.Frequency; }
-            set { localConf.Slider.Frequency = value; }
+            set { if (tabAccessed[2]) localConf.Slider.Frequency = value; }
         }
 
         [UIValue("slider_strength")]
         public float ArcStrength
         {
             get { return localConf.Slider.Strength; }
-            set { localConf.Slider.Strength = value; }
+            set { if (tabAccessed[2]) localConf.Slider.Strength = value; }
         }
 
         [UIValue("slider_frequency")]
         public float ArcFrequency
         {
             get { return localConf.Slider.Frequency; }
-            set { localConf.Slider.Frequency = value; }
+            set { if (tabAccessed[2]) localConf.Slider.Frequency = value; }
         }
 
         [UIValue("saber_clash_strength")]
         public float SaberClashStrength
         {
             get { return localConf.SaberClash.Strength; }
-            set { localConf.SaberClash.Strength = value; }
+            set { if (tabAccessed[2]) localConf.SaberClash.Strength = value; }
         }
 
         [UIValue("saber_clash_frequency")]
         public float SaberClashFrequency
         {
             get { return localConf.SaberClash.Frequency; }
-            set { localConf.SaberClash.Frequency = value; }
+            set { if (tabAccessed[2]) localConf.SaberClash.Frequency = value; }
         }
 
         [UIValue("ui_strength")]
         public float UIStrength
         {
             get { return localConf.UI.Strength; }
-            set { localConf.UI.Strength = value; }
+            set { if (tabAccessed[3]) localConf.UI.Strength = value; }
         }
 
         [UIValue("ui_frequency")]
         public float UIFrequency
         {
             get { return localConf.UI.Frequency; }
-            set { localConf.UI.Frequency = value; }
+            set { if (tabAccessed[3]) localConf.UI.Frequency = value; }
         }
 
         [UIValue("ui_duration")]
         public float UIDuration
         {
             get { return localConf.UI.Duration; }
-            set { localConf.UI.Duration = value; }
+            set { if (tabAccessed[3]) localConf.UI.Duration = value; }
         }
 
         [UIAction("#post-parse")]
         internal void PostParse()
         {
+            ResetTabAccessed();
         }
 
         [UIAction("#apply")]
@@ -302,13 +323,6 @@ namespace Rumbler
                     OpenXRInput.SendHapticImpulse(action, rumbleParams.Strength, rumbleParams.Frequency, duration, device);
                 }
             }
-        }
-
-        static void dummy()
-        {
-            KnucklesUnityXRHapticsHandler a;
-            RumbleHapticFeedbackPlayer b;
-            UnityXRHelper c;
         }
     }
 

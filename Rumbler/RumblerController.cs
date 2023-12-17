@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace Rumbler
 {
@@ -16,6 +17,19 @@ namespace Rumbler
     public class RumblerController : MonoBehaviour
     {
         public static RumblerController Instance { get; private set; }
+
+        internal CustomUnityXRHapticsHandler LeftHapticsHandler { get; private set; }
+        internal CustomUnityXRHapticsHandler RightHapticsHandler { get; private set; }
+
+        internal CustomUnityXRHapticsHandler GetHapticsHandler(XRNode node)
+        {
+            return node switch
+            {
+                XRNode.LeftHand => LeftHapticsHandler,
+                XRNode.RightHand => RightHapticsHandler,
+                _ => null
+            };
+        }
 
         // These methods are automatically called by Unity, you should remove any you aren't using.
         #region Monobehaviour Messages
@@ -34,7 +48,12 @@ namespace Rumbler
             }
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
+
+            LeftHapticsHandler = new CustomUnityXRHapticsHandler(UnityEngine.XR.XRNode.LeftHand, this);
+            RightHapticsHandler = new CustomUnityXRHapticsHandler(UnityEngine.XR.XRNode.RightHand, this);
+
             Plugin.Log?.Debug($"{name}: Awake()");
+            Plugin.Log?.Debug($"LH={LeftHapticsHandler}, RH={RightHapticsHandler}");
         }
         /// <summary>
         /// Only ever called once on the first frame the script is Enabled. Start is called after any other script's Awake() and before Update().

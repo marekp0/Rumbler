@@ -95,9 +95,12 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.VRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.XRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="VRUI, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomUnityXRHapticsHandler.cs" />
+    <Compile Include="HarmonyPatches\UnityXRHelper.cs" />
     <Compile Include="HarmonyPatches\NoteCutHapticEffect.cs" />
     <Compile Include="HarmonyPatches\ObstacleSaberSparkleEffectmanager.cs" />
     <Compile Include="HarmonyPatches\SaberClashEffect.cs" />

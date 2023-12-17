@@ -303,6 +303,13 @@ namespace Rumbler
                 }
             }
         }
+
+        static void dummy()
+        {
+            KnucklesUnityXRHapticsHandler a;
+            RumbleHapticFeedbackPlayer b;
+            UnityXRHelper c;
+        }
     }
 
 }

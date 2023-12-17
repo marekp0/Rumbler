@@ -4,33 +4,37 @@ using IPA.Config.Stores;
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace Rumbler.Configuration
 {
+    internal class RumbleParams
+    {
+        public virtual float Strength { get; set; } = 1f;
+        public virtual float Frequency { get; set; } = 50f;
+
+        // if this is 0, then the rumble will be continuous
+        public virtual float Duration { get; set; } = 0.1f;
+
+        public void CopyFrom(RumbleParams other)
+        {
+            Strength = other.Strength;
+            Frequency = other.Frequency;
+            Duration = other.Duration;
+        }
+    }
+
     internal class PluginConfig
     {
         public static PluginConfig Instance { get; set; }
 
         public virtual bool IsEnabled { get; set; } = false;
 
-        // notes
-        public virtual float NoteStrength { get; set; } = 0.5f;
-        public virtual float NoteFrequency { get; set; } = 100f;
-        public virtual float NoteDuration { get; set; } = 0.05f;
-
-        // walls
-        public virtual float WallStrength { get; set; } = 0.5f;
-        public virtual float WallFrequency { get; set; } = 0.5f;
-
-        // arcs
-        public virtual float ArcStrength { get; set; } = 0.5f;
-        public virtual float ArcFrequency { get; set; } = 100f;
-
-        // saber clash
-        public virtual float SaberClashStrength { get; set; } = 0.5f;
-        public virtual float SaberClashFrequency { get; set; } = 0.5f;
-
-        // UI
-        public virtual float UIStrength { get; set; } = 0.5f;
-        public virtual float UIFrequency { get; set; } = 100f;
-        public virtual float UIDuration { get; set; } = 0.05f;
+        public virtual RumbleParams NoteCutNormal { get; set; } = new RumbleParams();
+        public virtual RumbleParams NoteCutShortNormal { get; set; } = new RumbleParams();
+        public virtual RumbleParams NoteCutShortWeak { get; set; } = new RumbleParams();
+        public virtual RumbleParams NoteCutBomb { get; set; } = new RumbleParams();
+        public virtual RumbleParams NoteCutBadCut { get; set; } = new RumbleParams();
+        public virtual RumbleParams Obstacle { get; set; } = new RumbleParams { Duration = 0f };
+        public virtual RumbleParams Slider { get; set; } = new RumbleParams { Duration = 0f };
+        public virtual RumbleParams SaberClash { get; set; } = new RumbleParams { Duration = 0f };
+        public virtual RumbleParams UI { get; set; } = new RumbleParams();
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
@@ -54,18 +58,15 @@ namespace Rumbler.Configuration
         public virtual void CopyFrom(PluginConfig other)
         {
             IsEnabled = other.IsEnabled;
-            NoteStrength = other.NoteStrength;
-            NoteFrequency = other.NoteFrequency;
-            NoteDuration = other.NoteDuration;
-            WallStrength = other.WallStrength;
-            WallFrequency = other.WallFrequency;
-            ArcStrength = other.ArcStrength;
-            ArcFrequency = other.ArcFrequency;
-            SaberClashStrength = other.SaberClashStrength;
-            SaberClashFrequency = other.SaberClashFrequency;
-            UIStrength = other.UIStrength;
-            UIFrequency = other.UIFrequency;
-            UIDuration = other.UIDuration;
+            NoteCutNormal.CopyFrom(other.NoteCutNormal);
+            NoteCutShortNormal.CopyFrom(other.NoteCutShortNormal);
+            NoteCutShortWeak.CopyFrom(other.NoteCutShortWeak);
+            NoteCutBomb.CopyFrom(other.NoteCutBomb);
+            NoteCutBadCut.CopyFrom(other.NoteCutBadCut);
+            Obstacle.CopyFrom(other.Obstacle);
+            Slider.CopyFrom(other.Slider);
+            SaberClash.CopyFrom(other.SaberClash);
+            UI.CopyFrom(other.UI);
         }
     }
 }

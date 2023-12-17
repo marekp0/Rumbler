@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine.XR.OpenXR.Input;
 using UnityEngine.InputSystem;
+using Rumbler.Configuration;
 
 
 namespace Rumbler
@@ -17,16 +18,16 @@ namespace Rumbler
     [ViewDefinition("Rumbler.Views.Settings.bsml")]
     internal class SettingsController : BSMLAutomaticViewController
     {
-        private Configuration.PluginConfig conf;
-        private Configuration.PluginConfig localConf;
+        private PluginConfig conf;
+        private PluginConfig localConf;
 
         private const float kContinuousRumbleTestDuration = 2f;
 
 
-        public SettingsController(Configuration.PluginConfig conf)
+        public SettingsController(PluginConfig conf)
         {
             this.conf = conf;
-            localConf = new Configuration.PluginConfig();
+            localConf = new PluginConfig();
             localConf.CopyFrom(conf);
         }
 
@@ -36,88 +37,172 @@ namespace Rumbler
             set { localConf.IsEnabled = value; }
         }
 
-        [UIValue("note_strength")]
+        [UIValue("note_cut_normal_strength")]
         public float NoteStrength
         {
-            get { return localConf.NoteStrength; }
-            set { localConf.NoteStrength = value; }
+            get { return localConf.NoteCutNormal.Strength; }
+            set { localConf.NoteCutNormal.Strength = value; }
         }
 
-        [UIValue("note_frequency")]
+        [UIValue("note_cut_normal_frequency")]
         public float NoteFrequency
         {
-            get { return localConf.NoteFrequency; }
-            set { localConf.NoteFrequency = value; }
+            get { return localConf.NoteCutNormal.Frequency; }
+            set { localConf.NoteCutNormal.Frequency = value; }
         }
 
-        [UIValue("note_duration")]
+        [UIValue("note_cut_normal_duration")]
         public float NoteDuration
         {
-            get { return localConf.NoteDuration; }
-            set { localConf.NoteDuration = value; }
+            get { return localConf.NoteCutNormal.Duration; }
+            set { localConf.NoteCutNormal.Duration = value; }
         }
 
-        [UIValue("wall_strength")]
-        public float WallStrength
-        { 
-            get { return localConf.WallStrength;}
-            set { localConf.WallStrength = value; }
-        }
-
-        [UIValue("wall_frequency")]
-        public float WallFrequency
+        [UIValue("note_cut_short_normal_strength")]
+        public float NoteCutShortNormalStrength
         {
-            get { return localConf.WallFrequency; }
-            set { localConf.WallFrequency = value; }
+            get { return localConf.NoteCutShortNormal.Strength; }
+            set { localConf.NoteCutShortNormal.Strength = value; }
         }
 
-        [UIValue("arc_strength")]
+        [UIValue("note_cut_short_normal_frequency")]
+        public float NoteCutShortNormalFrequency
+        {
+            get { return localConf.NoteCutShortNormal.Frequency; }
+            set { localConf.NoteCutShortNormal.Frequency = value; }
+        }
+
+        [UIValue("note_cut_short_normal_duration")]
+        public float NoteCutShortNormalDuration
+        {
+            get { return localConf.NoteCutShortNormal.Duration; }
+            set { localConf.NoteCutShortNormal.Duration = value; }
+        }
+
+        [UIValue("note_cut_short_weak_strength")]
+        public float NoteCutShortWeakStrength
+        {
+            get { return localConf.NoteCutShortWeak.Strength; }
+            set { localConf.NoteCutShortWeak.Strength = value; }
+        }
+
+        [UIValue("note_cut_short_weak_frequency")]
+        public float NoteCutShortWeakFrequency
+        {
+            get { return localConf.NoteCutShortWeak.Frequency; }
+            set { localConf.NoteCutShortWeak.Frequency = value; }
+        }
+
+        [UIValue("note_cut_short_weak_duration")]
+        public float NoteCutShortWeakDuration
+        {
+            get { return localConf.NoteCutShortWeak.Duration; }
+            set { localConf.NoteCutShortWeak.Duration = value; }
+        }
+
+        [UIValue("note_cut_bomb_strength")]
+        public float NoteCutBombStrength
+        {
+            get { return localConf.NoteCutBomb.Strength; }
+            set { localConf.NoteCutBomb.Strength = value; }
+        }
+
+        [UIValue("note_cut_bomb_frequency")]
+        public float NoteCutBombFrequency
+        {
+            get { return localConf.NoteCutBomb.Frequency; }
+            set { localConf.NoteCutBomb.Frequency = value; }
+        }
+
+        [UIValue("note_cut_bomb_duration")]
+        public float NoteCutBombDuration
+        {
+            get { return localConf.NoteCutBomb.Duration; }
+            set { localConf.NoteCutBomb.Duration = value; }
+        }
+
+        [UIValue("note_cut_bad_cut_strength")]
+        public float NoteCutBadCutStrength
+        {
+            get { return localConf.NoteCutBadCut.Strength; }
+            set { localConf.NoteCutBadCut.Strength = value; }
+        }
+
+        [UIValue("note_cut_bad_cut_frequency")]
+        public float NoteCutBadCutFrequency
+        {
+            get { return localConf.NoteCutBadCut.Frequency; }
+            set { localConf.NoteCutBadCut.Frequency = value; }
+        }
+
+        [UIValue("note_cut_bad_cut_duration")]
+        public float NoteCutBadCutDuration
+        {
+            get { return localConf.NoteCutBadCut.Duration; }
+            set { localConf.NoteCutBadCut.Duration = value; }
+        }
+
+        [UIValue("obstacle_strength")]
+        public float ObstacleStrength
+        { 
+            get { return localConf.Obstacle.Strength;}
+            set { localConf.Obstacle.Strength = value; }
+        }
+
+        [UIValue("obstacle_frequency")]
+        public float ObstacleFrequency
+        {
+            get { return localConf.Slider.Frequency; }
+            set { localConf.Slider.Frequency = value; }
+        }
+
+        [UIValue("slider_strength")]
         public float ArcStrength
         {
-            get { return localConf.ArcStrength; }
-            set { localConf.ArcStrength = value; }
+            get { return localConf.Slider.Strength; }
+            set { localConf.Slider.Strength = value; }
         }
 
-        [UIValue("arc_frequency")]
+        [UIValue("slider_frequency")]
         public float ArcFrequency
         {
-            get { return localConf.ArcFrequency; }
-            set { localConf.ArcFrequency = value; }
+            get { return localConf.Slider.Frequency; }
+            set { localConf.Slider.Frequency = value; }
         }
 
         [UIValue("saber_clash_strength")]
         public float SaberClashStrength
         {
-            get { return localConf.SaberClashStrength; }
-            set { localConf.SaberClashStrength = value; }
+            get { return localConf.SaberClash.Strength; }
+            set { localConf.SaberClash.Strength = value; }
         }
 
         [UIValue("saber_clash_frequency")]
         public float SaberClashFrequency
         {
-            get { return localConf.SaberClashFrequency; }
-            set { localConf.SaberClashFrequency = value; }
+            get { return localConf.SaberClash.Frequency; }
+            set { localConf.SaberClash.Frequency = value; }
         }
 
         [UIValue("ui_strength")]
         public float UIStrength
         {
-            get { return localConf.UIStrength; }
-            set { localConf.UIStrength = value; }
+            get { return localConf.UI.Strength; }
+            set { localConf.UI.Strength = value; }
         }
 
         [UIValue("ui_frequency")]
         public float UIFrequency
         {
-            get { return localConf.UIFrequency; }
-            set { localConf.UIFrequency = value; }
+            get { return localConf.UI.Frequency; }
+            set { localConf.UI.Frequency = value; }
         }
 
         [UIValue("ui_duration")]
         public float UIDuration
         {
-            get { return localConf.UIDuration; }
-            set { localConf.UIDuration = value; }
+            get { return localConf.UI.Duration; }
+            set { localConf.UI.Duration = value; }
         }
 
         [UIAction("#post-parse")]
@@ -137,39 +222,65 @@ namespace Rumbler
             localConf.CopyFrom(conf);
         }
 
-        [UIAction("rumble_test_wall")]
-        internal void OnRumbleTestWall()
+        [UIAction("rumble_test_note_cut_normal")]
+        internal void OnRumbleTestNoteCutNormal()
         {
-            RumbleTest(localConf.WallStrength, localConf.WallFrequency, kContinuousRumbleTestDuration);
+            RumbleTest(localConf.NoteCutNormal);
         }
 
-        [UIAction("rumble_test_note")]
-        internal void OnRumbleTestNote()
+        [UIAction("rumble_test_note_cut_short_normal")]
+        internal void OnRumbleTestNoteCutShortNormal()
         {
-            RumbleTest(localConf.NoteStrength, localConf.NoteFrequency, localConf.NoteDuration);
+            RumbleTest(localConf.NoteCutShortNormal);
         }
 
-        [UIAction("rumble_test_arc")]
+        [UIAction("rumble_test_note_cut_short_weak")]
+        internal void OnRumbleTestNoteCutShortWeak()
+        {
+            RumbleTest(localConf.NoteCutShortWeak);
+        }
+
+        [UIAction("rumble_test_note_cut_bomb")]
+        internal void OnRumbleTestNoteCutBomb()
+        {
+            RumbleTest(localConf.NoteCutBomb);
+        }
+
+        [UIAction("rumble_test_note_cut_bad_cut")]
+        internal void OnRumbleTestNoteCutBadCut()
+        {
+            RumbleTest(localConf.NoteCutBadCut);
+        }
+
+        [UIAction("rumble_test_obstacle")]
+        internal void OnRumbleTestObstacle()
+        {
+            RumbleTest(localConf.Obstacle);
+        }
+
+        [UIAction("rumble_test_slider")]
         internal void OnRumbleTestArc()
         {
-            RumbleTest(localConf.ArcStrength, localConf.ArcFrequency, kContinuousRumbleTestDuration);
+            RumbleTest(localConf.Slider);
         }
 
         [UIAction("rumble_test_saber_clash")]
         internal void OnRumbleTestSaberClash()
         {
-            RumbleTest(localConf.SaberClashStrength, localConf.SaberClashFrequency, kContinuousRumbleTestDuration);
+            RumbleTest(localConf.SaberClash);
         }
 
         [UIAction("rumble_test_ui")]
         internal void OnRumbleTestUI()
         {
-            RumbleTest(localConf.UIStrength, localConf.UIFrequency, localConf.UIDuration);
+            RumbleTest(localConf.UI);
         }
 
-        private void RumbleTest(float strength, float frequency, float duration)
+
+        private void RumbleTest(RumbleParams rumbleParams)
         {
             var hands = new[] { CommonUsages.LeftHand, CommonUsages.RightHand };
+            float duration = rumbleParams.Duration == 0f ? kContinuousRumbleTestDuration : rumbleParams.Duration;
 
             // for each of LeftHand and RightHand:
             foreach (var hand in hands)
@@ -187,7 +298,7 @@ namespace Rumbler
                     action.AddBinding(hapticControl.path);
                     action.Enable();
 
-                    OpenXRInput.SendHapticImpulse(action, strength, frequency, duration, device);
+                    OpenXRInput.SendHapticImpulse(action, rumbleParams.Strength, rumbleParams.Frequency, duration, device);
                 }
             }
         }

@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
 using BeatSaberMarkupLanguage.Settings;
+using HarmonyLib;
 
 namespace Rumbler
 {
@@ -19,6 +20,9 @@ namespace Rumbler
         internal static IPALogger Log { get; private set; }
 
         private SettingsController settingsController;
+
+        internal const string HarmonyId = "com.github.marekp0.Rumbler";
+        internal static Harmony HarmonyInstance => new Harmony(HarmonyId);
 
         [Init]
         /// <summary>
@@ -44,6 +48,10 @@ namespace Rumbler
         public void OnEnable()
         {
             BSMLSettings.instance.AddSettingsMenu("Rumbler", $"Rumbler.Views.Settings.bsml", settingsController);
+            if (Configuration.PluginConfig.Instance.IsEnabled)
+            {
+                ApplyHarmonyPatches();
+            }
         }
 
         [OnStart]
@@ -58,6 +66,7 @@ namespace Rumbler
         public void OnDisable()
         {
             BSMLSettings.instance.RemoveSettingsMenu(settingsController);
+            RemoveHarmonyPatches();
         }
 
         [OnExit]
@@ -65,6 +74,34 @@ namespace Rumbler
         {
             Log.Debug("OnApplicationQuit");
 
+        }
+
+        internal static void ApplyHarmonyPatches()
+        {
+            try
+            {
+                HarmonyInstance.PatchAll();
+                Log?.Info("Successfully applied Harmony patches");
+            }
+            catch (Exception e)
+            {
+                Log?.Critical("Error adding Harmony patches: " + e.Message);
+                Log?.Debug(e);
+            }
+        }
+
+        internal static void RemoveHarmonyPatches()
+        {
+            try
+            {
+                HarmonyInstance.UnpatchSelf();
+                Log?.Info("Successfully removed Harmony patches");
+            }
+            catch (Exception e)
+            {
+                Log?.Critical("Error removing Harmony patches: " + e.Message);
+                Log?.Debug(e);
+            }
         }
     }
 }

@@ -316,6 +316,16 @@ namespace Rumbler
 
         private void RumbleTest(RumbleParams rumbleParams)
         {
+            RumbleInfo rumble;
+            rumble.rumbleDuration = rumbleParams.Duration;
+            rumble.pulseStrength = rumbleParams.Strength;
+            rumble.pulseFrequency = rumbleParams.Frequency;
+            rumble.pulseDuration = 0.004f;
+            rumble.pulseTrainPeriod = 1 / 90f;
+            RumblerController.Instance.HapticFeedbackPlayer.PlayHapticFeedback(UnityEngine.XR.XRNode.LeftHand, rumble);
+            RumblerController.Instance.HapticFeedbackPlayer.PlayHapticFeedback(UnityEngine.XR.XRNode.RightHand, rumble);
+
+            return;
             var hands = new[] { CommonUsages.LeftHand, CommonUsages.RightHand };
             float duration = rumbleParams.Duration == 0f ? kContinuousRumbleTestDuration : rumbleParams.Duration;
 

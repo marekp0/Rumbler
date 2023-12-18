@@ -99,6 +99,7 @@
     <Reference Include="VRUI, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomHapticFeedbackPlayer.cs" />
     <Compile Include="CustomUnityXRHapticsHandler.cs" />
     <Compile Include="HarmonyPatches\UnityXRHelper.cs" />
     <Compile Include="HarmonyPatches\NoteCutHapticEffect.cs" />

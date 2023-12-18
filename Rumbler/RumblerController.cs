@@ -21,6 +21,8 @@ namespace Rumbler
         internal CustomUnityXRHapticsHandler LeftHapticsHandler { get; private set; }
         internal CustomUnityXRHapticsHandler RightHapticsHandler { get; private set; }
 
+        internal CustomHapticFeedbackPlayer HapticFeedbackPlayer { get; private set; }
+
         internal CustomUnityXRHapticsHandler GetHapticsHandler(XRNode node)
         {
             return node switch
@@ -51,9 +53,9 @@ namespace Rumbler
 
             LeftHapticsHandler = new CustomUnityXRHapticsHandler(UnityEngine.XR.XRNode.LeftHand, this);
             RightHapticsHandler = new CustomUnityXRHapticsHandler(UnityEngine.XR.XRNode.RightHand, this);
+            HapticFeedbackPlayer = new CustomHapticFeedbackPlayer(this);
 
             Plugin.Log?.Debug($"{name}: Awake()");
-            Plugin.Log?.Debug($"LH={LeftHapticsHandler}, RH={RightHapticsHandler}");
         }
         /// <summary>
         /// Only ever called once on the first frame the script is Enabled. Start is called after any other script's Awake() and before Update().

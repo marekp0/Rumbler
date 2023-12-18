@@ -11,7 +11,7 @@ namespace Rumbler.Configuration
         public virtual float Frequency { get; set; } = 50f;
 
         // if this is 0, then the rumble will be continuous
-        public virtual float Duration { get; set; } = 0.1f;
+        public virtual float Duration { get; set; } = 0.13f;
 
         public void CopyFrom(RumbleParams other)
         {
@@ -64,7 +64,7 @@ namespace Rumbler.Configuration
         /// </summary>
         public virtual void Changed()
         {
-            // Do stuff when the config is changed.
+            Plugin.OnConfigChanged();
         }
 
         /// <summary>

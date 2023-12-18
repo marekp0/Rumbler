@@ -29,6 +29,14 @@ namespace Rumbler
         // "set" in tabs that were not accessed.
         private bool[] tabAccessed = new bool[4];
 
+        // constants for UI
+        [UIValue("min_frequency")]
+        public float MinFrequency { get; private set; } = 0f;
+        [UIValue("max_frequency")]
+        public float MaxFrequency { get; private set; } = 300f;
+        [UIValue("frequency_step")]
+        public float FrequencyStep { get; private set; } = 1f;
+
         public SettingsController(PluginConfig conf)
         {
             this.conf = conf;
@@ -296,6 +304,13 @@ namespace Rumbler
         internal void OnRumbleTestUI()
         {
             RumbleTest(localConf.UI);
+        }
+
+        [UIAction("default_settings_all")]
+        internal void OnDefaultSettingsAll()
+        {
+            localConf.CopyFrom(new PluginConfig());
+            // TODO: the actual controls are not updated
         }
 
 

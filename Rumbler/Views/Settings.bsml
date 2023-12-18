@@ -10,6 +10,9 @@
       <horizontal horizontal-fit="PreferredSize">
         <bool-setting value='enabled' text='Enable Rumbler' hover-hint='Turns the mod on or off'></bool-setting>
       </horizontal>
+      <horizontal horizontal-fit="PreferredSize">
+        <button text="Reset all settings to default" all-uppercase="false" on-click="default_settings_all"/>
+      </horizontal>
 
     </settings-container>
   </tab>
@@ -26,7 +29,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_normal_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_normal_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -50,7 +53,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_short_normal_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_short_normal_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -74,7 +77,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_short_weak_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_short_weak_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -98,7 +101,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_bad_cut_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_bad_cut_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -122,7 +125,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_bomb_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="note_cut_bomb_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -149,7 +152,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="obstacle_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="obstacle_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -169,7 +172,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="slider_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="slider_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -188,7 +191,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="saber_clash_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="saber_clash_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
@@ -206,7 +209,7 @@
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">
-        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="ui_frequency" min="0" max="500" increment="1"></slider-setting>
+        <slider-setting apply-on-change="true" show-buttons="true" text="Frequency" value="ui_frequency" min="~min_frequency" max="~max_frequency" increment="~frequency_step"></slider-setting>
       </horizontal>
 
       <horizontal horizontal-fit="PreferredSize">

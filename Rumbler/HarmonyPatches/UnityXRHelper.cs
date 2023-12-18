@@ -9,8 +9,6 @@ namespace Rumbler.HarmonyPatches
     {
         private static bool Prefix(HapticFeedbackManager __instance, XRNode node, float duration, float strength, float frequency)
         {
-            Plugin.Log?.Info($"handler={RumblerController.Instance.GetHapticsHandler(node)}");
-
             RumblerController.Instance.GetHapticsHandler(node)?.TriggerHapticPulse(strength, duration, frequency);
             return false;
         }

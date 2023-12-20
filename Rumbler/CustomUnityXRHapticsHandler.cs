@@ -57,7 +57,7 @@ namespace Rumbler
             _device = InputSystem.GetDevice<UnityEngine.InputSystem.XR.XRController>(usage);
             if (_device == null)
             {
-                Plugin.Log?.Warn($"Couldn't find device for {_node}");
+                //Plugin.Log?.Warn($"Couldn't find device for {_node}");
                 return false;
             }
 

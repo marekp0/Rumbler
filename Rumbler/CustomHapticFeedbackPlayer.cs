@@ -55,6 +55,9 @@ namespace Rumbler
 
             // TODO: check that the device didn't become invalid during runtime
             public bool DeviceValid => device != null;
+
+            // try not to spam too many warnings if we can't find the device
+            public bool suppressWarnings = false;
         }
 
         // map of XRNode (left hand or right hand) ControllerInfo
@@ -71,7 +74,6 @@ namespace Rumbler
 
         public void PlayHapticFeedback(XRNode node, RumbleInfo rumbleInfo)
         {
-            Plugin.Log?.Info("PlayHapticFeedback");
             if (node != XRNode.LeftHand && node != XRNode.RightHand)
             {
                 throw new ArgumentException($"Invalid XRNode {node}");
@@ -90,6 +92,21 @@ namespace Rumbler
             });
         }
 
+        public void StopHaptics(XRNode node)
+        {
+            if (node != XRNode.LeftHand && node != XRNode.RightHand)
+            {
+                throw new ArgumentException($"Invalid XRNode {node}");
+            }
+
+            // remove all rumbles for the given node
+            var controller = controllers[node];
+            controller.activeRumbles.Clear();
+
+            // stop any ongoing haptics
+            OpenXRInput.StopHaptics(controller.hapticAction, controller.device);
+        }
+
         private bool InitDevice(XRNode node)
         {
             // convert XRNode to CommonUsage
@@ -106,7 +123,11 @@ namespace Rumbler
             controllerInfo.device = InputSystem.GetDevice<UnityEngine.InputSystem.XR.XRController>(usage);
             if (controllerInfo.device == null)
             {
-                Plugin.Log?.Warn($"Couldn't find device for {node}");
+                if (!controllerInfo.suppressWarnings)
+                {
+                    Plugin.Log?.Error($"Couldn't find device for {node}");
+                    controllerInfo.suppressWarnings = true;
+                }
                 return false;
             }
 
@@ -119,15 +140,20 @@ namespace Rumbler
                 controllerInfo.hapticAction = new InputAction(name: "HapticFeedbackOverride", type: InputActionType.PassThrough);
                 controllerInfo.hapticAction.AddBinding(hapticControl.path);
                 controllerInfo.hapticAction.Enable();
+                controllerInfo.suppressWarnings = false;
                 return true;
             }
             else
             {
-                // print all paths from the device to assist with debugging
-                Plugin.Log?.Debug($"Device {controllerInfo.device.name} has no recognized haptic control. Paths:");
-                foreach (var control in controllerInfo.device.allControls)
+                if (!controllerInfo.suppressWarnings)
                 {
-                    Plugin.Log?.Debug(control.path);
+                    // print all paths from the device to assist with debugging
+                    Plugin.Log?.Error($"Device {controllerInfo.device.name} has no recognized haptic control. Paths:");
+                    foreach (var control in controllerInfo.device.allControls)
+                    {
+                        Plugin.Log?.Error(control.path);
+                    }
+                    controllerInfo.suppressWarnings = true;
                 }
 
                 return false;
@@ -161,8 +187,6 @@ namespace Rumbler
                         var next = rumbleNode.Next;
                         var rumble = rumbleNode.Value;
 
-                        Plugin.Log?.Info($"Remaining pulses: {rumble.remainingPulses}");
-
                         if (rumble.nextPulse <= Time.time)
                         {
                             // if multiple pulses, choose the strongest of each parameter
@@ -185,8 +209,6 @@ namespace Rumbler
                         {
                             waitTime = Math.Min(waitTime, rumble.nextPulse - Time.time);
                         }
-
-                        Plugin.Log?.Info($"Remaining pulses after: {rumble.remainingPulses}");
 
                         rumbleNode = next;
                     }

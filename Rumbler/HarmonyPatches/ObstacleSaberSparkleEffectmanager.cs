@@ -11,7 +11,7 @@ namespace Rumbler.HarmonyPatches
         private static void Postfix(ObstacleSaberSparkleEffectManager __instance)
         {
             var rumblePreset = __instance.GetField<HapticPresetSO, ObstacleSaberSparkleEffectManager>("_rumblePreset");
-            PluginConfig.Instance.Obstacle.CopyTo(rumblePreset);
+            //PluginConfig.Instance.Obstacle.CopyTo(rumblePreset);
         }
     }
 }

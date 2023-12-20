@@ -11,7 +11,7 @@ namespace Rumbler.HarmonyPatches
         private static void Postfix(SaberClashEffect __instance)
         {
             var rumblePreset = __instance.GetField<HapticPresetSO, SaberClashEffect>("_rumblePreset");
-            PluginConfig.Instance.SaberClash.CopyTo(rumblePreset);
+            //PluginConfig.Instance.SaberClash.CopyTo(rumblePreset);
         }
     }
 }

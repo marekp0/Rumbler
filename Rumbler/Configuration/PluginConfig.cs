@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
-using Libraries.HM.HMLib.VR;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace Rumbler.Configuration
@@ -8,30 +7,37 @@ namespace Rumbler.Configuration
     internal class RumbleParams
     {
         public virtual float Strength { get; set; } = 1f;
-        public virtual float Frequency { get; set; } = 50f;
 
-        // if this is 0, then the rumble will be continuous
-        public virtual float Duration { get; set; } = 0.13f;
+        // continuous rumbles should have a duration of 0
+        public virtual float RumbleDuration { get; set; } = 0.13f;
+
+        // frequency of a single pulse, doesn't matter much if PulseDuration is low
+        public virtual float PulseFrequency { get; set; } = 0f;
+
+        // duration of a single pulse
+        public virtual float PulseDuration { get; set; } = 0.004f;
+
+        // time between the start of successive pulses
+        public virtual float PulseTrainPeriod { get; set; } = 0.01f;
 
         public void CopyFrom(RumbleParams other)
         {
             Strength = other.Strength;
-            Frequency = other.Frequency;
-            Duration = other.Duration;
+            RumbleDuration = other.RumbleDuration;
+            PulseFrequency = other.PulseFrequency;
+            PulseDuration = other.PulseDuration;
+            PulseTrainPeriod = other.PulseTrainPeriod;
         }
 
-        /// <summary>
-        /// Copies the rumble parameters to a <c>HapticPresetSO</c> object.
-        /// </summary>
-        /// <param name="preset"><c>HapticPresetSO</c> object to copy to. Can be null.</param>
-        public void CopyTo(HapticPresetSO preset)
+        public RumbleInfo ToRumbleInfo()
         {
-            if (preset == null) return;
-
-            preset._strength = Strength;
-            preset._frequency = Frequency;
-            preset._duration = Duration;
-            preset._continuous = Duration == 0f;
+            RumbleInfo rumble;
+            rumble.rumbleDuration = RumbleDuration;
+            rumble.pulseStrength = Strength;
+            rumble.pulseFrequency = PulseFrequency;
+            rumble.pulseDuration = PulseDuration;
+            rumble.pulseTrainPeriod = PulseTrainPeriod;
+            return rumble;
         }
     }
 
@@ -39,17 +45,27 @@ namespace Rumbler.Configuration
     {
         public static PluginConfig Instance { get; set; }
 
+        // general
         public virtual bool IsEnabled { get; set; } = false;
 
+        // note cuts
+        public virtual bool NoteCutAllSame { get; set; } = true;
+        public virtual RumbleParams AllNoteCut { get; set; } = new RumbleParams();
         public virtual RumbleParams NoteCutNormal { get; set; } = new RumbleParams();
         public virtual RumbleParams NoteCutShortNormal { get; set; } = new RumbleParams();
         public virtual RumbleParams NoteCutShortWeak { get; set; } = new RumbleParams();
         public virtual RumbleParams NoteCutBomb { get; set; } = new RumbleParams();
         public virtual RumbleParams NoteCutBadCut { get; set; } = new RumbleParams();
-        public virtual RumbleParams Obstacle { get; set; } = new RumbleParams { Duration = 0f };
-        public virtual RumbleParams Slider { get; set; } = new RumbleParams { Duration = 0f };
-        public virtual RumbleParams SaberClash { get; set; } = new RumbleParams { Duration = 0f };
-        public virtual RumbleParams UI { get; set; } = new RumbleParams();
+
+        // continuous
+        public virtual bool ContinuousAllSame { get; set; } = true;
+        public virtual RumbleParams AllContinuous { get; set; } = new RumbleParams { RumbleDuration = 0f };
+        public virtual RumbleParams Obstacle { get; set; } = new RumbleParams { RumbleDuration = 0f };
+        public virtual RumbleParams Slider { get; set; } = new RumbleParams { RumbleDuration = 0f };
+        public virtual RumbleParams SaberClash { get; set; } = new RumbleParams { RumbleDuration = 0f };
+
+        // UI
+        public virtual RumbleParams UI { get; set; } = new RumbleParams { RumbleDuration = 0.01f };
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
@@ -73,14 +89,21 @@ namespace Rumbler.Configuration
         public virtual void CopyFrom(PluginConfig other)
         {
             IsEnabled = other.IsEnabled;
+
+            NoteCutAllSame = other.NoteCutAllSame;
+            AllNoteCut.CopyFrom(other.AllNoteCut);
             NoteCutNormal.CopyFrom(other.NoteCutNormal);
             NoteCutShortNormal.CopyFrom(other.NoteCutShortNormal);
             NoteCutShortWeak.CopyFrom(other.NoteCutShortWeak);
             NoteCutBomb.CopyFrom(other.NoteCutBomb);
             NoteCutBadCut.CopyFrom(other.NoteCutBadCut);
+
+            ContinuousAllSame = other.ContinuousAllSame;
+            AllContinuous.CopyFrom(other.AllContinuous);
             Obstacle.CopyFrom(other.Obstacle);
             Slider.CopyFrom(other.Slider);
             SaberClash.CopyFrom(other.SaberClash);
+
             UI.CopyFrom(other.UI);
         }
     }

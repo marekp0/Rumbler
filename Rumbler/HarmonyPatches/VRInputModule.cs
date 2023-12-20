@@ -12,7 +12,7 @@ namespace Rumbler.HarmonyPatches
         private static void Prefix(VRInputModule __instance)
         {
             var rumblePreset = __instance.GetField<HapticPresetSO, VRInputModule>("_rumblePreset");
-            PluginConfig.Instance.UI.CopyTo(rumblePreset);
+            //PluginConfig.Instance.UI.CopyTo(rumblePreset);
         }
     }
 }

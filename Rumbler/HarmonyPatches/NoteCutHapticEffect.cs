@@ -15,18 +15,9 @@ namespace Rumbler.HarmonyPatches
     [HarmonyPatch(typeof(NoteCutHapticEffect), "HitNote")]
     internal class NoteCutHapticEffect_HitNote
     {
-        private static void Prefix(NoteCutHapticEffect __instance, NoteCutHapticEffect.Type type)
+        private static void Prefix(NoteCutHapticEffect __instance, SaberType saberType, NoteCutHapticEffect.Type type)
         {
-            var fieldName = type switch
-            {
-                NoteCutHapticEffect.Type.Normal => "_normalPreset",
-                NoteCutHapticEffect.Type.ShortNormal => "_shortNormalPreset",
-                NoteCutHapticEffect.Type.ShortWeak => "_shortWeakPreset",
-                NoteCutHapticEffect.Type.Bomb => "_bombPreset",
-                NoteCutHapticEffect.Type.BadCut => "_badCutPreset",
-                _ => "_normalPreset"
-            };
-
+            // figure out which rumble params to use
             var rumbleParams = type switch
             {
                 NoteCutHapticEffect.Type.Normal => PluginConfig.Instance.NoteCutNormal,
@@ -37,8 +28,10 @@ namespace Rumbler.HarmonyPatches
                 _ => PluginConfig.Instance.NoteCutNormal
             };
 
-            var hapticPreset = __instance.GetField<HapticPresetSO, NoteCutHapticEffect>(fieldName);
-            rumbleParams.CopyTo(hapticPreset);
+            // play the rumble
+            var node = SaberTypeExtensions.Node(saberType);
+            var player = RumblerController.Instance?.HapticFeedbackPlayer;
+            player?.PlayHapticFeedback(node, rumbleParams.ToRumbleInfo());
         }
     }
 }

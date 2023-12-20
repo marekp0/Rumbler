@@ -11,7 +11,7 @@ namespace Rumbler.HarmonyPatches
         private static void Postfix(SliderHapticFeedbackInteractionEffect __instance)
         {
             var hapticPreset = __instance.GetField<HapticPresetSO, SliderHapticFeedbackInteractionEffect>("_hapticPreset");
-            PluginConfig.Instance.Slider.CopyTo(hapticPreset);
+            //PluginConfig.Instance.Slider.CopyTo(hapticPreset);
         }
     }
 }

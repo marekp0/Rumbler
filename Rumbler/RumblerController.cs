@@ -51,8 +51,8 @@ namespace Rumbler
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
 
-            LeftHapticsHandler = new CustomUnityXRHapticsHandler(UnityEngine.XR.XRNode.LeftHand, this);
-            RightHapticsHandler = new CustomUnityXRHapticsHandler(UnityEngine.XR.XRNode.RightHand, this);
+            LeftHapticsHandler = new CustomUnityXRHapticsHandler(XRNode.LeftHand, this);
+            RightHapticsHandler = new CustomUnityXRHapticsHandler(XRNode.RightHand, this);
             HapticFeedbackPlayer = new CustomHapticFeedbackPlayer(this);
 
             Plugin.Log?.Debug($"{name}: Awake()");

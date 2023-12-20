@@ -80,7 +80,7 @@ namespace Rumbler.Configuration
         /// </summary>
         public virtual void Changed()
         {
-            SyncAllSameSettings();
+            //SyncAllSameSettings();    // causes crash
             Plugin.OnConfigChanged();
         }
 

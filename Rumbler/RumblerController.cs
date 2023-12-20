@@ -18,20 +18,7 @@ namespace Rumbler
     {
         public static RumblerController Instance { get; private set; }
 
-        internal CustomUnityXRHapticsHandler LeftHapticsHandler { get; private set; }
-        internal CustomUnityXRHapticsHandler RightHapticsHandler { get; private set; }
-
         internal CustomHapticFeedbackPlayer HapticFeedbackPlayer { get; private set; }
-
-        internal CustomUnityXRHapticsHandler GetHapticsHandler(XRNode node)
-        {
-            return node switch
-            {
-                XRNode.LeftHand => LeftHapticsHandler,
-                XRNode.RightHand => RightHapticsHandler,
-                _ => null
-            };
-        }
 
         // These methods are automatically called by Unity, you should remove any you aren't using.
         #region Monobehaviour Messages
@@ -51,8 +38,6 @@ namespace Rumbler
             GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
             Instance = this;
 
-            LeftHapticsHandler = new CustomUnityXRHapticsHandler(XRNode.LeftHand, this);
-            RightHapticsHandler = new CustomUnityXRHapticsHandler(XRNode.RightHand, this);
             HapticFeedbackPlayer = new CustomHapticFeedbackPlayer(this);
 
             Plugin.Log?.Debug($"{name}: Awake()");

@@ -29,9 +29,8 @@ namespace Rumbler.HarmonyPatches
             };
 
             // play the rumble
-            var node = SaberTypeExtensions.Node(saberType);
             var player = RumblerController.Instance?.HapticFeedbackPlayer;
-            player?.PlayHapticFeedback(node, rumbleParams.ToRumbleInfo());
+            player?.PlayHapticFeedback(saberType.Node(), rumbleParams.ToRumbleInfo());
         }
     }
 }

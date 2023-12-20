@@ -291,6 +291,7 @@ namespace Rumbler
         [UIAction("#apply")]
         internal void OnApply()
         {
+            localConf.SyncAllSameSettings();
             conf.CopyFrom(localConf);
             Plugin.OnConfigChanged();
         }

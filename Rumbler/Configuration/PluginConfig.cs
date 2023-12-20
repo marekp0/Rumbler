@@ -72,7 +72,7 @@ namespace Rumbler.Configuration
         /// </summary>
         public virtual void OnReload()
         {
-            // Do stuff after config is read from disk.
+            SyncAllSameSettings();
         }
 
         /// <summary>
@@ -80,6 +80,7 @@ namespace Rumbler.Configuration
         /// </summary>
         public virtual void Changed()
         {
+            SyncAllSameSettings();
             Plugin.OnConfigChanged();
         }
 
@@ -105,6 +106,29 @@ namespace Rumbler.Configuration
             SaberClash.CopyFrom(other.SaberClash);
 
             UI.CopyFrom(other.UI);
+        }
+
+        /// <summary>
+        /// Ensures that if one of the "all same" options is on, the individual RumbleParams
+        /// are copied from the "all" RumbleParams.
+        /// </summary>
+        public void SyncAllSameSettings()
+        {
+            if (NoteCutAllSame)
+            {
+                NoteCutNormal.CopyFrom(AllNoteCut);
+                NoteCutShortNormal.CopyFrom(AllNoteCut);
+                NoteCutShortWeak.CopyFrom(AllNoteCut);
+                NoteCutBomb.CopyFrom(AllNoteCut);
+                NoteCutBadCut.CopyFrom(AllNoteCut);
+            }
+
+            if (ContinuousAllSame)
+            {
+                Obstacle.CopyFrom(AllContinuous);
+                Slider.CopyFrom(AllContinuous);
+                SaberClash.CopyFrom(AllContinuous);
+            }
         }
     }
 }

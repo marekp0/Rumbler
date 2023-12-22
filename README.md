@@ -36,6 +36,36 @@ For each of the above, you can specify the following parameters:
 
 ![Diagram showing a series of pulses, annotated with what each of the above controls](./docs/pulse-train.webp)
 
+## Installing
+
+This mod is not available through [ModAssistant][1] at the moment.
+ 
+1. Use [ModAssistant][1] to install `BSPIA` and `BeatSaberMarkupLanguage`
+2. Download the latest release from the [Releases][2] page
+3. Copy `Rumbler.dll` to your Beat Saber `Plugins` folder
+    - On Steam, this is usually `C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\Plugins`
+
+[1]: https://github.com/Assistant/ModAssistant
+[2]: https://github.com/marekp0/Rumbler/releases
+
+## Usage
+
+1. Start Beat Saber
+2. Go to `Settings` -> `Mod Settings` -> `Rumbler`
+3. Toggle `Enable Rumbler` to `On`
+4. Adjust the settings in the other tabs to your liking
+    - The default settings are as close as possible to Beat Saber v1.29.1
+      behavior, as tested on Valve Index controllers
+
 ## Caveats
 
 - This has only been tested on the Valve Index controllers, YMMV with other controllers!
+- This should work with any version of Beat Saber after v1.29.1, but has only
+  been tested on v1.34.0 and later.
+
+## Issues
+
+If you run into any issues or have any feature requests, feel free to open an
+issue on the [GitHub issue tracker][3].
+
+[3]: https://github.com/marekp0/Rumbler/issues

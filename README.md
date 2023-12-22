@@ -1,7 +1,11 @@
 # Rumbler
 
 A mod for [Beat Saber](https://beatsaber.com/) that lets you choose exactly how
-you want your controllers to vibrate or "rumble" while playing.
+you want your controllers to vibrate or "rumble" while playing. Loosely based
+on [nalulululuna's RumbleMod][1], but with more customization and updated for
+newer versions of Beat Saber.
+
+[1]: https://github.com/nalulululuna/RumbleMod
 
 ## Why?
 
@@ -38,15 +42,15 @@ For each of the above, you can specify the following parameters:
 
 ## Installing
 
-This mod is not available through [ModAssistant][1] at the moment.
+This mod is not available through [ModAssistant][2] at the moment.
  
-1. Use [ModAssistant][1] to install `BSPIA` and `BeatSaberMarkupLanguage`
-2. Download the latest release from the [Releases][2] page
+1. Use [ModAssistant][2] to install `BSPIA` and `BeatSaberMarkupLanguage`
+2. Download the latest release from the [Releases][3] page
 3. Copy `Rumbler.dll` to your Beat Saber `Plugins` folder
     - On Steam, this is usually `C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\Plugins`
 
-[1]: https://github.com/Assistant/ModAssistant
-[2]: https://github.com/marekp0/Rumbler/releases
+[2]: https://github.com/Assistant/ModAssistant
+[3]: https://github.com/marekp0/Rumbler/releases
 
 ## Usage
 
@@ -68,4 +72,4 @@ This mod is not available through [ModAssistant][1] at the moment.
 If you run into any issues or have any feature requests, feel free to open an
 issue on the [GitHub issue tracker][3].
 
-[3]: https://github.com/marekp0/Rumbler/issues
+[4]: https://github.com/marekp0/Rumbler/issues

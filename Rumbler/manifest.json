@@ -3,7 +3,7 @@
   "id": "Rumbler",
   "name": "Rumbler",
   "author": "marekp0",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Fine-grained control of controller vibrations",
   "gameVersion": "1.34.2",
   "dependsOn": {

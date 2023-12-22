@@ -25,6 +25,34 @@ namespace Rumbler
 
         private const float kContinuousRumbleTestDuration = 2f;
 
+        [UIValue("rumble_duration_step")]
+        private const int kRumbleDurationStep = 5;
+        [UIValue("rumble_duration_min")]
+        private const int kRumbleDurationMin = kRumbleDurationStep;
+        [UIValue("rumble_duration_max")]
+        private const int kRumbleDurationMax = 500;
+
+        [UIValue("pulse_frequency_step")]
+        private const int kPulseFrequencyStep = 1;
+        [UIValue("pulse_frequency_min")]
+        private const int kPulseFrequencyMin = 0;
+        [UIValue("pulse_frequency_max")]
+        private const int kPulseFrequencyMax = 300;
+
+        [UIValue("pulse_duration_step")]
+        private const int kPulseDurationStep = 1;
+        [UIValue("pulse_duration_min")]
+        private const int kPulseDurationMin = kPulseDurationStep;
+        [UIValue("pulse_duration_max")]
+        private const int kPulseDurationMax = kRumbleDurationMax;
+
+        [UIValue("pulse_train_period_step")]
+        private const int kPulseTrainPeriodStep = 5;
+        [UIValue("pulse_train_period_min")]
+        private const int kPulseTrainPeriodMin = kPulseTrainPeriodStep;
+        [UIValue("pulse_train_period_max")]
+        private const int kPulseTrainPeriodMax = kRumbleDurationMax;
+
         public SettingsController(PluginConfig conf)
         {
             this.conf = conf;
@@ -50,6 +78,28 @@ namespace Rumbler
             SyncControls();
         }
 
+        /// <summary>
+        /// Returns the lowest multiple of <paramref name="multiple"/> that is greater than or equal to <paramref name="min"/>
+        /// </summary>
+        /// <param name="multiple"></param>
+        /// <param name="min"></param>
+        /// <returns></returns>
+        static int LowestMultiple(int multiple, int min)
+        {
+            return (min + multiple - 1) / multiple * multiple;
+        }
+
+        /// <summary>
+        /// Returns the highest multiple of <paramref name="multiple"/> that is less than or equal to <paramref name="max"/>
+        /// </summary>
+        /// <param name="multiple"></param>
+        /// <param name="min"></param>
+        /// <returns></returns>
+        static int HighestMultiple(int multiple, int max)
+        {
+            return max / multiple * multiple;
+        }
+
         #region General
 
         [UIValue("enabled")]
@@ -73,7 +123,7 @@ namespace Rumbler
         private readonly Dictionary<string, RumbleParams> noteTypeParams = new Dictionary<string, RumbleParams>();
 
         [UIValue("note_types")]
-        public List<Object> NoteTypes => noteTypeParams.Keys.ToList<object>();
+        public List<object> NoteTypes => noteTypeParams.Keys.ToList<object>();
 
         private string selectedNoteType = "All";
 
@@ -102,7 +152,7 @@ namespace Rumbler
         }
 
         [UIValue("note_cut_strength")]
-        public float NoteCutStrength
+        public int NoteCutStrength
         {
             get { return currentNoteTypeParams.Strength; }
             set
@@ -113,20 +163,31 @@ namespace Rumbler
         }
 
         [UIValue("note_cut_rumble_duration")]
-        public float NoteCutRumbleDuration
+        public int NoteCutRumbleDuration
         {
             get { return currentNoteTypeParams.RumbleDuration; }
             set
             {
                 currentNoteTypeParams.RumbleDuration = value;
                 NoteCutAllSame = selectedNoteType == "All";
+
+                if (NoteCutPulseDuration > value)
+                {
+                    NoteCutPulseDuration = HighestMultiple(kPulseDurationStep, value);
+                    NotifyPropertyChanged("NoteCutPulseDuration");
+                }
+                if (NoteCutPulseTrainPeriod > value)
+                {
+                    NoteCutPulseTrainPeriod = HighestMultiple(kPulseTrainPeriodStep, value);
+                    NotifyPropertyChanged("NoteCutPulseTrainPeriod");
+                }
             }
         }
 
         [UIValue("note_cut_pulse_frequency")]
         public int NoteCutPulseFrequency
         {
-            get { return (int)currentNoteTypeParams.PulseFrequency; }
+            get { return currentNoteTypeParams.PulseFrequency; }
             set
             {
                 currentNoteTypeParams.PulseFrequency = value;
@@ -137,23 +198,45 @@ namespace Rumbler
         [UIValue("note_cut_pulse_duration")]
         public int NoteCutPulseDuration
         {
-            // note: this is in seconds, but the UI shows milliseconds
-            get { return (int)(currentNoteTypeParams.PulseDuration * 1000f); }
+            get { return currentNoteTypeParams.PulseDuration; }
             set
             {
-                currentNoteTypeParams.PulseDuration = value / 1000f;
+                currentNoteTypeParams.PulseDuration = value;
                 NoteCutAllSame = selectedNoteType == "All";
+
+                if (NoteCutRumbleDuration < value)
+                {
+                    NoteCutRumbleDuration = LowestMultiple(kRumbleDurationStep, value);
+                    NotifyPropertyChanged("NoteCutRumbleDuration");
+                }
+                if (NoteCutPulseTrainPeriod < value)
+                {
+                    NoteCutPulseTrainPeriod = LowestMultiple(kPulseTrainPeriodStep, value);
+                    NotifyPropertyChanged("NoteCutPulseTrainPeriod");
+                }
             }
         }
 
         [UIValue("note_cut_pulse_train_period")]
-        public float NoteCutPulseTrainPeriod
+        public int NoteCutPulseTrainPeriod
         {
             get { return currentNoteTypeParams.PulseTrainPeriod; }
             set
             {
                 currentNoteTypeParams.PulseTrainPeriod = value;
                 NoteCutAllSame = selectedNoteType == "All";
+                NotifyPropertyChanged();
+
+                if (NoteCutRumbleDuration < value)
+                {
+                    NoteCutRumbleDuration = LowestMultiple(kRumbleDurationStep, value);
+                    NotifyPropertyChanged("NoteCutRumbleDuration");
+                }
+                if (NoteCutPulseDuration > value)
+                {
+                    NoteCutPulseDuration = HighestMultiple(kPulseDurationStep, value);
+                    NotifyPropertyChanged("NoteCutPulseDuration");
+                }
             }
         }
 
@@ -200,32 +283,55 @@ namespace Rumbler
         }
 
         [UIValue("continuous_strength")]
-        public float ContinuousStrength
+        public int ContinuousStrength
         {
             get { return currentContinuousTypeParams.Strength; }
-            set { currentContinuousTypeParams.Strength = value; }
+            set {
+                currentContinuousTypeParams.Strength = value;
+                ContinuousAllSame = selectedContinuousType == "All";
+            }
         }
 
         [UIValue("continuous_pulse_frequency")]
         public int ContinuousPulseFrequency
         {
-            get { return (int)currentContinuousTypeParams.PulseFrequency; }
-            set { currentContinuousTypeParams.PulseFrequency = value; }
+            get { return currentContinuousTypeParams.PulseFrequency; }
+            set {
+                currentContinuousTypeParams.PulseFrequency = value;
+                ContinuousAllSame = selectedContinuousType == "All";
+            }
         }
 
         [UIValue("continuous_pulse_duration")]
         public int ContinuousPulseDuration
         {
-            // note: this is in seconds, but the UI shows milliseconds
-            get { return (int)(currentContinuousTypeParams.PulseDuration * 1000f); }
-            set { currentContinuousTypeParams.PulseDuration = value / 1000f; }
+            get { return currentContinuousTypeParams.PulseDuration; }
+            set {
+                currentContinuousTypeParams.PulseDuration = value;
+                ContinuousAllSame = selectedContinuousType == "All";
+
+                if (ContinuousPulseTrainPeriod < value)
+                {
+                    ContinuousPulseTrainPeriod = LowestMultiple(kPulseTrainPeriodStep, value);
+                    NotifyPropertyChanged("ContinuousPulseTrainPeriod");
+                }
+            }
         }
 
         [UIValue("continuous_pulse_train_period")]
-        public float ContinuousPulseTrainPeriod
+        public int ContinuousPulseTrainPeriod
         {
             get { return currentContinuousTypeParams.PulseTrainPeriod; }
-            set { currentContinuousTypeParams.PulseTrainPeriod = value; }
+            set {
+                currentContinuousTypeParams.PulseTrainPeriod = value;
+                ContinuousAllSame = selectedContinuousType == "All";
+
+                if (ContinuousPulseDuration > value)
+                {
+                    ContinuousPulseDuration = HighestMultiple(kPulseDurationStep, value);
+                    NotifyPropertyChanged("ContinuousPulseDuration");
+                }
+            }
         }
 
         [UIAction("rumble_test_continuous")]
@@ -239,39 +345,80 @@ namespace Rumbler
         #region UI
 
         [UIValue("ui_strength")]
-        public float UIStrength
+        public int UIStrength
         {
             get { return localConf.UI.Strength; }
             set { localConf.UI.Strength = value; }
         }
 
         [UIValue("ui_rumble_duration")]
-        public float UIRumbleDuration
+        public int UIRumbleDuration
         {
             get { return localConf.UI.RumbleDuration; }
-            set { localConf.UI.RumbleDuration = value; }
+            set
+            {
+                localConf.UI.RumbleDuration = value;
+
+                if (UIPulseDuration > value)
+                {
+                    UIPulseDuration = HighestMultiple(kPulseDurationStep, value);
+                    NotifyPropertyChanged("UIPulseDuration");
+                }
+
+                if (UIPulseTrainPeriod > value)
+                {
+                    UIPulseTrainPeriod = HighestMultiple(kPulseTrainPeriodStep, value);
+                    NotifyPropertyChanged("UIPulseTrainPeriod");
+                }
+            }
         }
 
         [UIValue("ui_pulse_frequency")]
         public int UIPulseFrequency
         {
-            get { return (int)localConf.UI.PulseFrequency; }
+            get { return localConf.UI.PulseFrequency; }
             set { localConf.UI.PulseFrequency = value; }
         }
 
         [UIValue("ui_pulse_duration")]
         public int UIPulseDuration
         {
-            // note: this is in seconds, but the UI shows milliseconds
-            get { return (int)(localConf.UI.PulseDuration * 1000f); }
-            set { localConf.UI.PulseDuration = value / 1000f; }
+            get { return localConf.UI.PulseDuration; }
+            set {
+                localConf.UI.PulseDuration = value;
+
+                if (UIRumbleDuration < value)
+                {
+                    UIRumbleDuration = LowestMultiple(kRumbleDurationStep, value);
+                    NotifyPropertyChanged("UIRumbleDuration");
+                }
+                if (UIPulseTrainPeriod < value)
+                {
+                    UIPulseTrainPeriod = LowestMultiple(kPulseTrainPeriodStep, value);
+                    NotifyPropertyChanged("UIPulseTrainPeriod");
+                }
+            }
         }
 
         [UIValue("ui_pulse_train_period")]
-        public float UIPulseTrainPeriod
+        public int UIPulseTrainPeriod
         {
             get { return localConf.UI.PulseTrainPeriod; }
-            set { localConf.UI.PulseTrainPeriod = value; }
+            set
+            {
+                localConf.UI.PulseTrainPeriod = value;
+
+                if (UIRumbleDuration < value)
+                {
+                    UIRumbleDuration = LowestMultiple(kRumbleDurationStep, value);
+                    NotifyPropertyChanged("UIRumbleDuration");
+                }
+                if (UIPulseDuration > value)
+                {
+                    UIPulseDuration = HighestMultiple(kPulseDurationStep, value);
+                    NotifyPropertyChanged("UIPulseDuration");
+                }
+            }
         }
 
         [UIAction("rumble_test_ui")]
@@ -320,12 +467,11 @@ namespace Rumbler
 
         private void RumbleTest(RumbleParams rumbleParams)
         {
-            RumbleInfo rumble;
-            rumble.rumbleDuration = rumbleParams.RumbleDuration == 0 ? kContinuousRumbleTestDuration : rumbleParams.RumbleDuration;
-            rumble.pulseStrength = rumbleParams.Strength;
-            rumble.pulseFrequency = rumbleParams.PulseFrequency;
-            rumble.pulseDuration = rumbleParams.PulseDuration;
-            rumble.pulseTrainPeriod = rumbleParams.PulseTrainPeriod;
+            RumbleInfo rumble = rumbleParams.ToRumbleInfo();
+            if (rumbleParams.RumbleDuration == 0)
+            {
+                rumble.rumbleDuration = kContinuousRumbleTestDuration;
+            }
 
             var hapticFeedbackPlayer = RumblerController.Instance.HapticFeedbackPlayer;
 

@@ -6,19 +6,22 @@ namespace Rumbler.Configuration
 {
     internal class RumbleParams
     {
-        public virtual float Strength { get; set; } = 1f;
+        // all durations in milliseconds
+
+        // strength in percent, 0-100
+        public virtual int Strength { get; set; } = 100;
 
         // continuous rumbles should have a duration of 0
-        public virtual float RumbleDuration { get; set; } = 0.13f;
+        public virtual int RumbleDuration { get; set; } = 130;
 
         // frequency of a single pulse, doesn't matter much if PulseDuration is low
-        public virtual float PulseFrequency { get; set; } = 0f;
+        public virtual int PulseFrequency { get; set; } = 0;
 
         // duration of a single pulse
-        public virtual float PulseDuration { get; set; } = 0.004f;
+        public virtual int PulseDuration { get; set; } = 4;
 
         // time between the start of successive pulses
-        public virtual float PulseTrainPeriod { get; set; } = 0.01f;
+        public virtual int PulseTrainPeriod { get; set; } = 10;
 
         public void CopyFrom(RumbleParams other)
         {
@@ -32,11 +35,11 @@ namespace Rumbler.Configuration
         public RumbleInfo ToRumbleInfo()
         {
             RumbleInfo rumble;
-            rumble.rumbleDuration = RumbleDuration;
-            rumble.pulseStrength = Strength;
-            rumble.pulseFrequency = PulseFrequency;
-            rumble.pulseDuration = PulseDuration;
-            rumble.pulseTrainPeriod = PulseTrainPeriod;
+            rumble.rumbleDuration = RumbleDuration/1000f;
+            rumble.pulseStrength = Strength/100f;
+            rumble.pulseFrequency = PulseFrequency/1000f;
+            rumble.pulseDuration = PulseDuration / 1000f;
+            rumble.pulseTrainPeriod = PulseTrainPeriod / 1000f;
             return rumble;
         }
     }
@@ -59,13 +62,13 @@ namespace Rumbler.Configuration
 
         // continuous
         public virtual bool ContinuousAllSame { get; set; } = true;
-        public virtual RumbleParams AllContinuous { get; set; } = new RumbleParams { RumbleDuration = 0f };
-        public virtual RumbleParams Obstacle { get; set; } = new RumbleParams { RumbleDuration = 0f };
-        public virtual RumbleParams Slider { get; set; } = new RumbleParams { RumbleDuration = 0f };
-        public virtual RumbleParams SaberClash { get; set; } = new RumbleParams { RumbleDuration = 0f };
+        public virtual RumbleParams AllContinuous { get; set; } = new RumbleParams { RumbleDuration = 0 };
+        public virtual RumbleParams Obstacle { get; set; } = new RumbleParams { RumbleDuration = 0 };
+        public virtual RumbleParams Slider { get; set; } = new RumbleParams { RumbleDuration = 0 };
+        public virtual RumbleParams SaberClash { get; set; } = new RumbleParams { RumbleDuration = 0 };
 
         // UI
-        public virtual RumbleParams UI { get; set; } = new RumbleParams { RumbleDuration = 0.01f };
+        public virtual RumbleParams UI { get; set; } = new RumbleParams { RumbleDuration = 10 };
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).

@@ -27,13 +27,13 @@
       <horizontal preferred-height='4'/>
 
       <button text='Test rumble' all-uppercase='false' on-click='rumble_test_note_cut'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Strength' value='note_cut_strength' min='0' max='1' increment='0.05'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Rumble duration (sec)' value='note_cut_rumble_duration' min='0' max='1' increment='0.01'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse frequency (Hz)' value='note_cut_pulse_frequency' min='0' max='300' increment='1' integer-only='true'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse duration (msec)' value='note_cut_pulse_duration' min='1' max='500' increment='1' integer-only='true'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse train period (sec)' value='note_cut_pulse_train_period' min='0' max='0.5' increment='0.01'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Strength' value='note_cut_strength' min='0' max='100' increment='1' integer-only='true'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Rumble duration (ms)' value='note_cut_rumble_duration' min='~rumble_duration_min' max='~rumble_duration_max' increment='~rumble_duration_step' integer-only='true'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse frequency (Hz)' value='note_cut_pulse_frequency' min='~pulse_frequency_min' max='~pulse_frequency_max' increment='~pulse_frequency_step' integer-only='true'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse duration (ms)' value='note_cut_pulse_duration' min='~pulse_duration_min' max='~pulse_duration_max' increment='~pulse_duration_step' integer-only='true'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse train period (ms)' value='note_cut_pulse_train_period' min='~pulse_train_period_min' max='~pulse_train_period_max' increment='~pulse_train_period_step' integer-only='true'/>
 
-    </settings-container>    
+    </settings-container>
   </tab>
   
   
@@ -47,10 +47,10 @@
       <horizontal preferred-height='4'/>
 
       <button text='Test rumble' all-uppercase='false' on-click='rumble_test_continuous'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Strength' value='continuous_strength' min='0' max='1' increment='0.05'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse frequency (Hz)' value='continuous_pulse_frequency' min='0' max='300' increment='1' integer-only='true'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse duration (msec)' value='continuous_pulse_duration' min='0' max='500' increment='1' integer-only='true'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse train period (sec)' value='continuous_pulse_train_period' min='0' max='0.5' increment='0.01'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Strength' value='continuous_strength' min='0' max='100' increment='1' integer-only='true'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse frequency (Hz)' value='continuous_pulse_frequency' min='~pulse_frequency_min' max='~pulse_frequency_max' increment='~pulse_frequency_step' integer-only='true'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse duration (ms)' value='continuous_pulse_duration' min='~pulse_duration_min' max='~pulse_duration_max' increment='~pulse_duration_step' integer-only='true'/>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse train period (ms)' value='continuous_pulse_train_period' min='~pulse_train_period_min' max='~pulse_train_period_max' increment='~pulse_train_period_step' integer-only='true'/>
 
     </settings-container>
   </tab>
@@ -59,11 +59,11 @@
     <settings-container>
 
       <button text='Test rumble' all-uppercase='false' on-click='rumble_test_ui'/>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Strength' value='ui_strength' min='0' max='1' increment='0.05'></slider-setting>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Rumble duration (sec)' value='ui_rumble_duration' min='0' max='1' increment='0.01'></slider-setting>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse frequency (Hz)' value='ui_pulse_frequency' min='0' max='300' increment='1' integer-only='true'></slider-setting>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse duration (msec)' value='ui_pulse_duration' min='1' max='500' increment='1' integer-only='true'></slider-setting>
-      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse train period (sec)' value='ui_pulse_train_period' min='0' max='0.5' increment='0.01'></slider-setting>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Strength' value='ui_strength' min='0' max='100' increment='1' integer-only='true'></slider-setting>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Rumble duration (ms)' value='ui_rumble_duration' min='~rumble_duration_min' max='~rumble_duration_max' increment='~rumble_duration_step' integer-only='true'></slider-setting>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse frequency (Hz)' value='ui_pulse_frequency' min='~pulse_frequency_min' max='~pulse_frequency_max' increment='~pulse_frequency_step' integer-only='true'></slider-setting>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse duration (ms)' value='ui_pulse_duration' min='~pulse_duration_min' max='~pulse_duration_max' increment='~pulse_duration_step' integer-only='true'></slider-setting>
+      <slider-setting bind-value='true' apply-on-change='true' show-buttons='true' text='Pulse train period (ms)' value='ui_pulse_train_period' min='~pulse_train_period_min' max='~pulse_train_period_max' increment='~pulse_train_period_step' integer-only='true'></slider-setting>
 
     </settings-container>
   </tab>

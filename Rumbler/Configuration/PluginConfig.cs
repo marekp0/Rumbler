@@ -37,7 +37,7 @@ namespace Rumbler.Configuration
             RumbleInfo rumble;
             rumble.rumbleDuration = RumbleDuration/1000f;
             rumble.pulseStrength = Strength/100f;
-            rumble.pulseFrequency = PulseFrequency/1000f;
+            rumble.pulseFrequency = PulseFrequency;
             rumble.pulseDuration = PulseDuration / 1000f;
             rumble.pulseTrainPeriod = PulseTrainPeriod / 1000f;
             return rumble;

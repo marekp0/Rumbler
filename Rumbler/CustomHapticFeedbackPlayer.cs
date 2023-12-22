@@ -78,13 +78,26 @@ namespace Rumbler
             {
                 throw new ArgumentException($"Invalid XRNode {node}");
             }
+            var controller = controllers[node];
+
+            // immediately play the first pulse to avoid potential delays
+            if (controller.DeviceValid || InitDevice(node))
+            {
+                OpenXRInput.SendHapticImpulse(controller.hapticAction, rumbleInfo.pulseStrength, rumbleInfo.pulseFrequency, rumbleInfo.pulseDuration, controller.device);
+            }
+
+            var totalPulses = (int)(rumbleInfo.rumbleDuration / rumbleInfo.pulseTrainPeriod);
+            if (totalPulses <= 1)
+            {
+                // nothing left to do
+                return;
+            }
 
             // add a new rumble to the list
-            var controller = controllers[node];
             controller.activeRumbles.AddLast(new ActiveRumble
             {
-                remainingPulses = (int)(rumbleInfo.rumbleDuration / rumbleInfo.pulseTrainPeriod),
-                nextPulse = Time.time,
+                remainingPulses = totalPulses - 1,
+                nextPulse = Time.time + rumbleInfo.pulseTrainPeriod,
                 pulseStrength = rumbleInfo.pulseStrength,
                 pulseFrequency = rumbleInfo.pulseFrequency,
                 pulseDuration = rumbleInfo.pulseDuration,
@@ -169,9 +182,8 @@ namespace Rumbler
             var waiter = new WaitForSecondsRealtime(0f);
             while (true)
             {
-                // wait at most one frame for any potential new pulses
-                // TODO: wake up on a new ActiveRumble instead of effectively polling
-                float waitTime = Time.deltaTime;
+                // wait at most half a frame for any potential new pulses
+                float waitTime = Time.deltaTime/2f;
 
                 foreach (var (node, controller) in controllers)
                 {
@@ -201,7 +213,7 @@ namespace Rumbler
                             }
                             else
                             {
-                                rumble.nextPulse = Time.time + rumble.pulseTrainPeriod;
+                                rumble.nextPulse += rumble.pulseTrainPeriod;
                                 waitTime = Math.Min(waitTime, rumble.pulseTrainPeriod);
                             }
                         }

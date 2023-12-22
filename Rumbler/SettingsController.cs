@@ -459,7 +459,6 @@ namespace Rumbler
             {
                 if (prop.GetCustomAttributes(typeof(UIValue), true).FirstOrDefault() is UIValue)
                 {
-                    Plugin.Log?.Info($"Syncing control {prop.Name}");
                     NotifyPropertyChanged(prop.Name);
                 }
             }
